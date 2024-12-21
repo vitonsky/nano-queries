@@ -12,9 +12,9 @@ The project goals and key features is:
 - A safety of queries, to prevent SQL injections
 - Universal and extensible design to build SQL queries for any database
 
-A `nano-queries` is focused to be an ideal **query builder**, that's all.
+A `nano-queries` is focused to be an ideal **query builder**, that's all. There's no a queries executor, data mapper (Active Record or something), ORM, etc.
 
-There's no a queries executor, data mapper (Active Record or something), ORM, etc. Project design is follows the [UNIX philosophy](https://en.wikipedia.org/wiki/Unix_philosophy), that's why this solution works well with any database - SQLite, Postgres, MySQL, Oracle, etc.
+Project design is follows the [UNIX philosophy](https://en.wikipedia.org/wiki/Unix_philosophy), that's why this solution works well with any database - SQLite, Postgres, MySQL, Oracle, etc.
 
 # The Design
 
