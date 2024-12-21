@@ -165,15 +165,19 @@ test('Limit and offset appends as placeholders', () => {
 });
 ```
 
-# Usage
-
 `nano-queries` provides some basic **query segments** for SQL by path `nano-queries/sql`.
 
 The purpose of basic **query segments** is to simplify composing a routine queries.
 
 Implementation of some basic query segments may be not ideal for now or something may be missed. In that case you should implement them itself, but you are welcome to [make issues](https://github.com/vitonsky/nano-queries/issues/new/choose) with requests for new query segments you missing.
 
-`nano-queries` also provides a configurable query builder, that provides methods to make query segments:
+## Extended query builder
+
+`nano-queries` provides a configurable query builder, that have methods to make query segments.
+
+That's may be useful to pack all query segments used in your project at single place.
+
+Usage looks similar to [Zod validator](https://zod.dev/) - you compose a query like some structure from blocks.
 
 ```js
 import { SQLCompiler } from 'nano-queries/compilers/SQLCompiler';
@@ -226,12 +230,14 @@ qb.toSQL(
     qb.offset(10),
   )
 );
+```
 
-// Code above yields code equal to
-// {
-//   sql: 'SELECT * FROM notes WHERE workspace_id=$1 AND id IN (SELECT target FROM attachedTags WHERE source IN ($2,$3,$4)) LIMIT $5 OFFSET $6',
-//   bindings: ['2ecdc7e5-734e-47a9-b053-f399eb225d7b', 'foo', 'bar', 123, 20, 10],
-// }
+Code above yields query object equal to
+```json
+{
+  "sql": "SELECT * FROM notes WHERE workspace_id=$1 AND id IN (SELECT target FROM attachedTags WHERE source IN ($2,$3,$4)) LIMIT $5 OFFSET $6",
+  "bindings": ['2ecdc7e5-734e-47a9-b053-f399eb225d7b', 'foo', 'bar', 123, 20, 10],
+}
 ```
 
 Just like use query builder object you may manually build queries with **query segments** that is classes which may be composed and nested.
