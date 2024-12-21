@@ -7,12 +7,12 @@ Simple and powerful query builder for any database.
 
 The purpose of **query builder** is to simplify building a complex (SQL) query for database in safe manner.
 
-A `nano-queries` is focused to be an ideal **query builder**, that's all.
-
-The purpose of the `nano-queries`, a project goals and features is:
+The key features and project goals is:
 - Simple API to build a complex queries
 - A safety of queries, to prevent SQL injections
 - Universal and extensible design to build SQL queries for any database
+
+A `nano-queries` is focused to be an ideal **query builder**, that's all.
 
 There's no a queries executor, Active Record or any data mapper, ORM, etc. We are respect [UNIX philosophy](https://en.wikipedia.org/wiki/Unix_philosophy), that's why this solution works well with any database - SQLite, Postgres, MySQL, Oracle, etc.
 
