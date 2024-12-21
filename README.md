@@ -61,13 +61,6 @@ Code above yields query object equal to
 }
 ```
 
-It provides method `raw` to add `RawSegment` or string that will be converted to `RawSegment`.
-
-Also it provides method `value` to add unsafe user input that will be converted to `PreparedValue`.
-
-```js
-```
-
 ## Example
 
 With those primitives you may implement custom **query segments** with any API, then compose and compile it to a **query** and **bindings**.
