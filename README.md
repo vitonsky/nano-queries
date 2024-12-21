@@ -18,45 +18,54 @@ Project design is follows the [UNIX philosophy](https://en.wikipedia.org/wiki/Un
 
 # The Design
 
-A `nano-queries` design is based on assumption that only programmer knowns how to implement ideal query. That's why `nano-queries` provides a primitives to implement your own **query segments**.
+A `nano-queries` design is based on the idea that only the programmer knows how to implement the ideal query properly, and the query builder must not limit the programmer in doing their work.
 
-A query segments is a presence of code and data, that will be compiled to a **query** and **bindings**.
+That's why the core concept of `nano-queries` is **query segments**.
+
+A query segments is a nodes that represents a raw code and data (user input), and may be compiled to a **query** and **bindings**.
+
+All query segments is based on 3 primitives:
+
+- `RawSegment` represents a raw code in query and will be compiled as is
+- `PreparedValue` represents an user input and will be replaced with a placeholder while compiling
+- `Query` represents a collection of query segments and may contains another instances of `Query`. Compiler will handle all segments inside `Query` recursively
 
 
-## Primitives
+Additionally, there are `QueryBuilder` that extends `Query` and let you build queries step by step like that
 
-Package provides a primitives to let you build your own **query segments**.
+```ts
+import { QueryBuilder } from 'nano-queries/QueryBuilder';
+import { SQLCompiler } from 'nano-queries/compilers/SQLCompiler';
 
-All query segments based on 3 primitives:
+const compiler = new SQLCompiler();
 
-`RawSegment` represents a raw code in query and will be compiled as is
-
-```js
-import { RawSegment } from 'nano-queries/core/RawSegment';
+compiler.toSQL(
+  new QueryBuilder({ join: ' ' })
+    .raw('SELECT * FROM notes WHERE id IN')
+    .raw(
+      new QueryBuilder()
+        .raw('(SELECT note_id FROM tags WHERE name=')
+        .value('personal')
+        .raw(')')
+    )
+    .raw('LIMIT').value(100)
+    .raw('OFFSET').value(200)
+);
 ```
 
-`PreparedValue` represents an user input and will be replaced with a placeholder while compiling
-
-```js
-import { PreparedValue } from 'nano-queries/core/PreparedValue';
+Code above yields query object equal to
+```json
+{
+  "sql": "SELECT * FROM notes WHERE id IN (SELECT note_id FROM tags WHERE name=?) LIMIT ? OFFSET ?",
+  "bindings": ["foo", 100, 200],
+}
 ```
-
-`Query` represents a collection of query segments and may contains another instances of `Query`.
-
-Compiler will handle all segments inside `Query` recursively.
-
-```js
-import { Query } from 'nano-queries/core/Query';
-```
-
-Additionally, there are `QueryBuilder` that extends `Query` and let you build query step by step.
 
 It provides method `raw` to add `RawSegment` or string that will be converted to `RawSegment`.
 
 Also it provides method `value` to add unsafe user input that will be converted to `PreparedValue`.
 
 ```js
-import { QueryBuilder } from 'nano-queries/QueryBuilder';
 ```
 
 ## Example
