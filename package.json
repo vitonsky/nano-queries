@@ -1,6 +1,6 @@
 {
 	"name": "nano-queries",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "Simple and powerful query builder for any database",
 	"keywords": [
 		"backend",
