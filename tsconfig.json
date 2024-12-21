@@ -24,17 +24,11 @@
 		"preserveConstEnums": true,
 		"removeComments": false,
 		"sourceMap": true,
-		"lib": [
-			"es2020",
-			"dom"
-		],
+		"lib": ["es2020", "dom"],
 		"rootDir": ".",
 		"allowJs": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true
 	},
-	"include": [
-		"src/*.ts",
-		"src/**/*.ts"
-	]
+	"include": ["*.ts", "src/*.ts", "src/**/*.ts"]
 }
