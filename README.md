@@ -236,7 +236,7 @@ Code above yields query object equal to
 ```json
 {
   "sql": "SELECT * FROM notes WHERE workspace_id=$1 AND id IN (SELECT target FROM attachedTags WHERE source IN ($2,$3,$4)) LIMIT $5 OFFSET $6",
-  "bindings": ['2ecdc7e5-734e-47a9-b053-f399eb225d7b', 'foo', 'bar', 123, 20, 10],
+  "bindings": ["2ecdc7e5-734e-47a9-b053-f399eb225d7b", "foo", "bar", 123, 20, 10],
 }
 ```
 
