@@ -1,6 +1,6 @@
 [![](https://img.shields.io/npm/v/nano-queries.svg)](https://www.npmjs.com/package/nano-queries) ![](https://github.com/vitonsky/nano-queries/actions/workflows/codeql-analysis.yml/badge.svg)
 
-Simple and powerful query builder for any database.
+Simple and powerful database-agnostic query builder.
 
 
 # About
@@ -57,6 +57,51 @@ Code above yields query object equal to
 ```json
 {
   "sql": "SELECT * FROM notes WHERE id IN (SELECT note_id FROM tags WHERE name=?) LIMIT ? OFFSET ?",
+  "bindings": ["foo", 100, 200],
+}
+```
+
+## Database-agnostic design
+
+With `nano-queries` you may **build queries for any database**, including SQLite, Postgres, MariaDB, and even embedded databases implemented on JavaScript or WASM like [PGlite](https://pglite.dev/).
+
+Moreover, you may build not only SQL queries, but any text query and bindings for it. For example, you may build a complex and safe queries for GraphQL, Redis Lua Scripting, SPARQL, gRPC, etc.
+
+That's important feature and reason why `nano-queries` stands out among other solutions.
+
+You may just configure queries compiler, to build queries for your target database dialect, or even implement your own compiler.
+
+```ts
+import { SQLCompiler } from 'nano-queries/compilers/SQLCompiler';
+import { QueryBuilder } from 'nano-queries/QueryBuilder';
+
+export const compiler = new SQLCompiler({
+  // Optionally, you may configure queries compiler, for your database.
+  // In this example we configure placeholders to generate SQL for Postgres
+  // By default will be used anonymous placeholders (symbol `?`) that used in SQLite
+  getPlaceholder(index) {
+    return '$' + (index + 1);
+  },
+});
+
+compiler.toSQL(
+  new QueryBuilder({ join: ' ' })
+    .raw('SELECT * FROM notes WHERE id IN')
+    .raw(
+      new QueryBuilder()
+        .raw('(SELECT note_id FROM tags WHERE name=')
+        .value('personal')
+        .raw(')')
+    )
+    .raw('LIMIT').value(100)
+    .raw('OFFSET').value(200)
+);
+```
+
+Code above yields query object equal to
+```json
+{
+  "sql": "SELECT * FROM notes WHERE id IN (SELECT note_id FROM tags WHERE name=$1) LIMIT $2 OFFSET $3",
   "bindings": ["foo", 100, 200],
 }
 ```
