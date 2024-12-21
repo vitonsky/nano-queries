@@ -22,7 +22,14 @@
 	],
 	"rules": {
 		// turn on errors for missing imports
-		"import/no-unresolved": "error",
+		"import/no-unresolved": [
+			"error",
+			{
+				"ignore": [
+					"^vitest/config"
+				]
+			}
+		],
 		"spellcheck/spell-checker": [
 			"error",
 			{
@@ -36,6 +43,8 @@
 					"Globals",
 					"workspace",
 					"sql",
+					"PGlite",
+					"Glite",
 					"esm"
 				],
 				// Check if word contains numbers

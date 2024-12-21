@@ -1,6 +1,7 @@
 {
 	"name": "nano-queries",
 	"version": "1.0.1",
+	"type": "module",
 	"description": "Simple and powerful database-agnostic query builder (SQL & NoSQL)",
 	"keywords": [
 		"backend",
@@ -35,8 +36,8 @@
 		"url": "https://github.com/vitonsky/nano-queries"
 	},
 	"scripts": {
-		"test": "jest",
-		"test-fast": "TEST_FAST=true jest",
+		"test": "vitest",
+		"test-fast": "TEST_FAST=true vitest",
 		"build": "rm -rf dist && gulp",
 		"release": "npm run build && cd dist && npm publish",
 		"prettify": "prettier --write \"{*,**/*}.{ts,tsx,js,jsx}\" && eslint --fix \"{*,**/*}.{ts,tsx,js,jsx}\"",
@@ -46,8 +47,8 @@
 	"devDependencies": {
 		"@commitlint/cli": "^17.0.0",
 		"@commitlint/config-conventional": "^17.0.0",
-		"@types/jest": "^27.5.1",
-		"@types/node": "^17.0.35",
+		"@electric-sql/pglite": "^0.2.15",
+		"@types/node": "^22.10.2",
 		"@typescript-eslint/eslint-plugin": "^5.25.0",
 		"@typescript-eslint/parser": "^5.25.0",
 		"eslint": "^8.40.0",
@@ -60,12 +61,11 @@
 		"gulp-sourcemaps": "^3.0.0",
 		"gulp-typescript": "^6.0.0-alpha.1",
 		"husky": "^8.0.1",
-		"jest": "^28.1.0",
 		"lint-staged": "^12.4.1",
 		"merge-stream": "^2.0.0",
 		"npm-check-updates": "^16.10.9",
 		"prettier": "^3.4.2",
-		"ts-jest": "^28.0.2",
-		"typescript": "^4.6.4"
+		"typescript": "^4.6.4",
+		"vitest": "^2.1.8"
 	}
 }

@@ -1,9 +1,14 @@
-import { Query } from '../core/Query';
 import { QueryBuilder } from '../QueryBuilder';
-import { IQuery, QuerySegment } from '../types';
+import { IQuery, QuerySegment, RawQueryParameter } from '../types';
 import { GroupExpression } from './GroupExpression';
 
-export class SetExpression extends Query implements IQuery {
+export class SetExpression extends QueryBuilder implements IQuery {
+	constructor(...segments: RawQueryParameter[]) {
+		super({ join: null });
+
+		this.raw(...segments);
+	}
+
 	public withParenthesis() {
 		return new GroupExpression(this);
 	}
