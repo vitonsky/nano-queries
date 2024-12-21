@@ -106,9 +106,11 @@ Code above yields query object equal to
 }
 ```
 
-## Example
+## Custom query segments
 
-With those primitives you may implement custom **query segments** with any API, then compose and compile it to a **query** and **bindings**.
+Even though you may build queries step by step with `QueryBuilder` as in examples above, you may also use custom queries from `nano-queries/sql` or implement your own custom queries.
+
+Custom query segment is a class that extends a basic class `nano-queries/core/Query` and let you construct complex pieces of queries like SQL expressions, clauses, operators, etc.
 
 Example with implementation of `nano-queries/sql/LimitClause`:
 
@@ -142,7 +144,7 @@ export class LimitClause extends Query implements IQuery {
 }
 ```
 
-Now you may use custom **query segment** in your queries like that:
+Now you may use new query segment `LimitClause` in your queries like that:
 
 ```js
 import { QueryBuilder } from 'nano-queries/QueryBuilder';
