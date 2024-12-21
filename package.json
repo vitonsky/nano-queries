@@ -61,7 +61,7 @@
 		"gulp-typescript": "^6.0.0-alpha.1",
 		"husky": "^8.0.1",
 		"jest": "^28.1.0",
-		"lint-staged": "^12.4.1",
+		"lint-staged": "^15.2.11",
 		"merge-stream": "^2.0.0",
 		"npm-check-updates": "^16.10.9",
 		"prettier": "^3.4.2",
