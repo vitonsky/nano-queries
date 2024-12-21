@@ -240,6 +240,8 @@ Code above yields query object equal to
 }
 ```
 
+## Manual query building
+
 Just like use query builder object you may manually build queries with **query segments** that is classes which may be composed and nested.
 
 ```js
@@ -250,29 +252,41 @@ import { SQLCompiler } from 'nano-queries/compilers/SQLCompiler';
 import { ConditionClause } from 'nano-queries/sql/ConditionClause';
 import { GroupExpression } from 'nano-queries/sql/GroupExpression';
 import { WhereClause } from 'nano-queries/sql/WhereClause';
+import { LimitClause } from 'nano-queries/sql/LimitClause';
 
 const compiler = new SQLCompiler()
 
-test('Where clause may be filled after join', () => {
-  const where = new WhereClause();
-  const query = new QueryBuilder({ join: ' ' }).raw('SELECT * FROM foo', where);
+const where = new WhereClause();
+const query = new QueryBuilder({ join: ' ' })
+  // You may insert many segments into `raw` method
+  .raw('SELECT * FROM foo', where)
+  // or call `raw` to add every segment
+  .raw(new LimitClause({ limit: 100, offset: 200 }));
 
-  // You can fill a `where` after build a query object
-  where
-    .and('x > ', new PreparedValue(0))
-    .or(
-      new GroupExpression(
-        new ConditionClause()
-          .and('y=', new PreparedValue(1))
-          .and('z=', new PreparedValue(2)),
-      ),
-    );
+// You can fill a `where` after compose a query object.
+// All segments have their own state and query will be
+// build only during compiling, so code pieces,
+// values and placeholders will be on the correct place
+where
+  .and('x > ', new PreparedValue(0))
+  .or(
+    // Add brackets for nested condition
+    new GroupExpression(
+      new ConditionClause()
+        .and('y=', new PreparedValue(1))
+        .and('z=', new PreparedValue(2)),
+    ),
+  );
 
-  expect(compiler.toSQL(query)).toEqual({
-    sql: 'SELECT * FROM foo WHERE x > ? OR (y=? AND z=?)',
-    bindings: [0, 1, 2],
-  });
-});
+compiler.toSQL(query);
+```
+
+Code above yields query object equal to
+```json
+{
+  "sql": "SELECT * FROM foo WHERE x > ? OR (y=? AND z=?) LIMIT ? OFFSET ?",
+  "bindings": [0, 1, 2, 100, 200],
+}
 ```
 
 # API
