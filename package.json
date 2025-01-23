@@ -61,7 +61,7 @@
 		"gulp-sourcemaps": "^3.0.0",
 		"gulp-typescript": "^6.0.0-alpha.1",
 		"husky": "^8.0.1",
-		"lint-staged": "^12.4.1",
+		"lint-staged": "^15.4.2",
 		"merge-stream": "^2.0.0",
 		"npm-check-updates": "^16.10.9",
 		"prettier": "^3.4.2",
