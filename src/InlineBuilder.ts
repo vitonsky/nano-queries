@@ -1,10 +1,11 @@
 import { Query } from './core/Query';
 import { QueryBuilder } from './QueryBuilder';
+import { PrimitiveValue } from './types';
 
 export class InlineBuilder {
 	public build(
 		strings: TemplateStringsArray,
-		...params: Array<string | number | Query>
+		...params: Array<PrimitiveValue | Query>
 	): Query {
 		const query = new QueryBuilder();
 
