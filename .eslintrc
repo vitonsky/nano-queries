@@ -45,6 +45,7 @@
 					"sql",
 					"PGlite",
 					"Glite",
+					"templated",
 					"esm"
 				],
 				// Check if word contains numbers

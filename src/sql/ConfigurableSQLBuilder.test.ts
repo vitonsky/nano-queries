@@ -49,6 +49,25 @@ test('Complex query building', () => {
 	});
 });
 
+test('Complex query building with templated string', () => {
+	const query = (sources: (string | number)[]) =>
+		qb.sql`SELECT * FROM notes WHERE workspace_id=${'fake-uuid'} ${
+			sources.length === 0
+				? qb.sql``
+				: qb.sql`AND id IN (SELECT target FROM attachedTags WHERE source IN (${qb.values(sources)}))`
+		} LIMIT ${20} OFFSET ${10}`;
+
+	expect(qb.toSQL(query(['foo', 'bar', 123]))).toEqual({
+		sql: 'SELECT * FROM notes WHERE workspace_id=? AND id IN (SELECT target FROM attachedTags WHERE source IN (?,?,?)) LIMIT ? OFFSET ?',
+		bindings: ['fake-uuid', 'foo', 'bar', 123, 20, 10],
+	});
+
+	expect(qb.toSQL(query([]))).toEqual({
+		sql: 'SELECT * FROM notes WHERE workspace_id=?  LIMIT ? OFFSET ?',
+		bindings: ['fake-uuid', 20, 10],
+	});
+});
+
 test('Empty blocks yields nothing', () => {
 	expect(
 		qb.toSQL(

@@ -2,7 +2,8 @@ import { SQLCompiler } from '../compilers/SQLCompiler';
 import { PreparedValue } from '../core/PreparedValue';
 import { Query } from '../core/Query';
 import { QueryBuilder } from '../QueryBuilder';
-import { QueryBindings, RawQueryParameter } from '../types';
+import { TemplateStringQueryBuilder } from '../TemplateStringQueryBuilder';
+import { PrimitiveValue, QueryBindings, RawQueryParameter } from '../types';
 import { ConditionClause } from './ConditionClause';
 import { GroupExpression } from './GroupExpression';
 import { LimitClause } from './LimitClause';
@@ -48,4 +49,10 @@ export class ConfigurableSQLBuilder {
 	public toSQL = (query: Query): { sql: string; bindings: QueryBindings[] } => {
 		return this.compiler.toSQL(query);
 	};
+
+	private readonly templateStringBuilder = new TemplateStringQueryBuilder();
+	public sql = (
+		strings: TemplateStringsArray,
+		...params: Array<PrimitiveValue | Query>
+	) => this.templateStringBuilder.build(strings, ...params);
 }
