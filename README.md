@@ -53,13 +53,40 @@ compiler.toSQL(
 );
 ```
 
-Code above yields query object equal to
+And `TemplateStringQueryBuilder` that let you build queries like templated string
+
+```ts
+import { TemplateStringQueryBuilder } from 'nano-queries/TemplateStringQueryBuilder';
+import { SQLCompiler } from 'nano-queries/compilers/SQLCompiler';
+
+const compiler = new SQLCompiler();
+const sql = new TemplateStringQueryBuilder();
+
+const userInput = {
+  name: "foo",
+  limit: 100,
+  offset: 200,
+};
+
+compiler.toSQL(
+  sql.build`
+    SELECT * FROM notes
+    WHERE id IN (
+      SELECT note_id FROM tags WHERE name=${userInput.name}
+    )
+    LIMIT ${userInput.limit} OFFSET ${userInput.offset}`
+);
+```
+
+Both examples above yields query object equivalent to
 ```json
 {
   "sql": "SELECT * FROM notes WHERE id IN (SELECT note_id FROM tags WHERE name=?) LIMIT ? OFFSET ?",
   "bindings": ["foo", 100, 200],
 }
 ```
+
+User input for both cases will be replaced to placeholder and present in bindings list.
 
 ## Database-agnostic design
 

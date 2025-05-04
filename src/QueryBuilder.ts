@@ -1,7 +1,7 @@
 import { PreparedValue } from './core/PreparedValue';
 import { Query } from './core/Query';
 import { RawSegment } from './core/RawSegment';
-import { IQuery, QuerySegment, RawQueryParameter } from './types';
+import { IQuery, PrimitiveValue, QuerySegment, RawQueryParameter } from './types';
 import { isEmptySegment } from './utils/segments';
 
 export type QueryConstructorOptions = {
@@ -21,7 +21,7 @@ export class QueryBuilder extends Query implements IQuery {
 		return this;
 	}
 
-	public value = (value: string | number | null) => {
+	public value = (value: PrimitiveValue) => {
 		return this.raw(new PreparedValue(value));
 	};
 
