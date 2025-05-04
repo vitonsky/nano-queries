@@ -2,7 +2,7 @@ import { Query } from './core/Query';
 import { QueryBuilder } from './QueryBuilder';
 import { PrimitiveValue } from './types';
 
-export class InlineBuilder {
+export class TemplateStringQueryBuilder {
 	public build(
 		strings: TemplateStringsArray,
 		...params: Array<PrimitiveValue | Query>

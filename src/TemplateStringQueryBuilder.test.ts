@@ -1,11 +1,11 @@
 import { SQLCompiler } from './compilers/SQLCompiler';
-import { InlineBuilder } from './InlineBuilder';
 import { QueryBuilder } from './QueryBuilder';
+import { TemplateStringQueryBuilder } from './TemplateStringQueryBuilder';
 
 const compiler = new SQLCompiler();
 
 test('User input converts to bindings', () => {
-	const builder = new InlineBuilder();
+	const builder = new TemplateStringQueryBuilder();
 
 	expect(
 		compiler.toSQL(builder.build`SELECT * FROM foo WHERE foo=${1} LIMIT 2`),
@@ -25,7 +25,7 @@ test('User input converts to bindings', () => {
 });
 
 test('Implicitly raw queries inserts as is', () => {
-	const builder = new InlineBuilder();
+	const builder = new TemplateStringQueryBuilder();
 
 	// Insert query built with query builder
 	const rawQuery = new QueryBuilder({
