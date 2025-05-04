@@ -5,18 +5,16 @@ import { TemplateStringQueryBuilder } from './TemplateStringQueryBuilder';
 const compiler = new SQLCompiler();
 
 test('User input converts to bindings', () => {
-	const builder = new TemplateStringQueryBuilder();
+	const sql = new TemplateStringQueryBuilder();
 
-	expect(
-		compiler.toSQL(builder.build`SELECT * FROM foo WHERE foo=${1} LIMIT 2`),
-	).toEqual({
+	expect(compiler.toSQL(sql.build`SELECT * FROM foo WHERE foo=${1} LIMIT 2`)).toEqual({
 		sql: 'SELECT * FROM foo WHERE foo=? LIMIT 2',
 		bindings: [1],
 	});
 
 	expect(
 		compiler.toSQL(
-			builder.build`SELECT * FROM foo WHERE foo=${1} bar=${'hello' + ' ' + 'world'} LIMIT 2`,
+			sql.build`SELECT * FROM foo WHERE foo=${1} bar=${'hello' + ' ' + 'world'} LIMIT 2`,
 		),
 	).toEqual({
 		sql: 'SELECT * FROM foo WHERE foo=? bar=? LIMIT 2',
@@ -25,7 +23,7 @@ test('User input converts to bindings', () => {
 });
 
 test('Implicitly raw queries inserts as is', () => {
-	const builder = new TemplateStringQueryBuilder();
+	const sql = new TemplateStringQueryBuilder();
 
 	// Insert query built with query builder
 	const rawQuery = new QueryBuilder({
@@ -35,9 +33,7 @@ test('Implicitly raw queries inserts as is', () => {
 		.value(3.14);
 
 	expect(
-		compiler.toSQL(
-			builder.build`SELECT * FROM foo WHERE foo=${1} ${rawQuery} LIMIT 2`,
-		),
+		compiler.toSQL(sql.build`SELECT * FROM foo WHERE foo=${1} ${rawQuery} LIMIT 2`),
 	).toEqual({
 		sql: 'SELECT * FROM foo WHERE foo=? ORDER BY x * ? LIMIT 2',
 		bindings: [1, 3.14],
@@ -46,7 +42,7 @@ test('Implicitly raw queries inserts as is', () => {
 	// Insert nested queries
 	expect(
 		compiler.toSQL(
-			builder.build`SELECT * FROM foo WHERE foo=${1} ${builder.build`ORDER BY x * ${3.14}`} LIMIT 2`,
+			sql.build`SELECT * FROM foo WHERE foo=${1} ${sql.build`ORDER BY x * ${3.14}`} LIMIT 2`,
 		),
 	).toEqual({
 		sql: 'SELECT * FROM foo WHERE foo=? ORDER BY x * ? LIMIT 2',
