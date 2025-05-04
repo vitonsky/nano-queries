@@ -4,7 +4,7 @@ import { QueryBuilder } from './QueryBuilder';
 export class InlineBuilder {
 	public build(
 		strings: TemplateStringsArray,
-		...params: Array<string | number>
+		...params: Array<string | number | Query>
 	): Query {
 		const query = new QueryBuilder();
 
@@ -14,7 +14,12 @@ export class InlineBuilder {
 			const lastItemIndex = items.length - 1;
 			if (index < lastItemIndex) {
 				const parameter = params[index];
-				query.value(parameter);
+
+				if (parameter instanceof Query) {
+					query.raw(parameter);
+				} else {
+					query.value(parameter);
+				}
 			}
 		});
 
