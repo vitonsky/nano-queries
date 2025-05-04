@@ -1,0 +1,32 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Compiler options > Compilation with post processing 1`] = `
+{
+  "bindings": [
+    1,
+    "foo",
+    "bar",
+    2,
+    3,
+  ],
+  "command": "SELECT
+  *
+FROM
+  foo
+WHERE
+  x = $1
+  AND (
+    SELECT
+      y
+    FROM
+      bar
+    WHERE
+      n = $2
+      OR n2 = $3
+  )
+LIMIT
+  $4
+OFFSET
+  $5",
+}
+`;

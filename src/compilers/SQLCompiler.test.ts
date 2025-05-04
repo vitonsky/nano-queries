@@ -1,3 +1,5 @@
+import { format } from 'sql-formatter';
+
 import { PreparedValue } from '../core/PreparedValue';
 import { Query } from '../core/Query';
 import { RawSegment } from '../core/RawSegment';
@@ -110,5 +112,46 @@ describe('Compiler options', () => {
 				'SELECT * FROM foo WHERE x=$1 AND (SELECT y FROM bar WHERE n=$2 OR n2=$3) LIMIT $4 OFFSET $5',
 			bindings: [1, 'foo', 'bar', 2, 3],
 		});
+	});
+
+	test('Compilation with post processing', () => {
+		const compiler = new SQLCompiler({
+			getPlaceholder(index) {
+				return '$' + (index + 1);
+			},
+			onPostProcess(code) {
+				return format(code, { language: 'postgresql' });
+			},
+		});
+
+		expect(
+			compiler.compile(
+				new Query(
+					new RawSegment('SELECT *'),
+					new RawSegment(' '),
+					new RawSegment('FROM foo'),
+					new RawSegment(' '),
+					new RawSegment('WHERE x='),
+					new PreparedValue(1),
+					new RawSegment(' AND '),
+					new Query(
+						new RawSegment('('),
+						new RawSegment('SELECT y FROM bar WHERE n='),
+						new PreparedValue('foo'),
+						new RawSegment(' OR '),
+						new Query(new RawSegment('n2='), new PreparedValue('bar')),
+						new RawSegment(')'),
+					),
+					new RawSegment(' '),
+					new RawSegment('LIMIT'),
+					new RawSegment(' '),
+					new PreparedValue(2),
+					new RawSegment(' '),
+					new RawSegment('OFFSET'),
+					new RawSegment(' '),
+					new PreparedValue(3),
+				),
+			),
+		).toMatchSnapshot();
 	});
 });
