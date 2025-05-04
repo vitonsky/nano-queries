@@ -28,7 +28,8 @@
 		"rootDir": ".",
 		"allowJs": true,
 		"resolveJsonModule": true,
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"types": ["vitest/globals"]
 	},
 	"include": ["*.ts", "src/*.ts", "src/**/*.ts"]
 }
