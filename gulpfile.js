@@ -1,10 +1,9 @@
 /* eslint-disable spellcheck/spell-checker */
-const gulp = require('gulp');
-const ts = require('gulp-typescript');
-const mergeStream = require('merge-stream');
-const sourcemaps = require('gulp-sourcemaps');
-
-const cleanPackageJson = require('gulp-clean-package');
+import { dest, parallel, series, src } from 'gulp';
+import cleanPackageJson from 'gulp-clean-package';
+import sourcemaps from 'gulp-sourcemaps';
+import ts from 'gulp-typescript';
+import mergeStream from 'merge-stream';
 
 const buildDir = 'dist';
 
@@ -13,18 +12,17 @@ function tsCompilerFactory(outPath, settings) {
 	return function compileTS() {
 		const tsProject = ts.createProject('tsconfig.json', settings);
 
-		return gulp
-			.src(['src/**/!(*.test).{ts,tsx}'])
+		return src(['src/**/!(*.test).{ts,tsx}'])
 			.pipe(sourcemaps.init())
 			.pipe(tsProject())
 			.pipe(sourcemaps.write())
-			.pipe(gulp.dest(outPath));
+			.pipe(dest(outPath));
 	};
 }
 
 // Main
 function build() {
-	return gulp.parallel([
+	return parallel([
 		// Compile TS files
 		Object.assign(tsCompilerFactory(buildDir, { module: 'commonjs' }), {
 			displayName: 'TSC:esnext',
@@ -33,7 +31,7 @@ function build() {
 		// Copy js files and declarations
 		Object.assign(
 			function copyNotTranspilableSources() {
-				return gulp.src([`src/**/!(*.test).{js,d.ts}`]).pipe(gulp.dest(buildDir));
+				return src([`src/**/!(*.test).{js,d.ts}`]).pipe(dest(buildDir));
 			},
 			{
 				displayName: 'CopyPureSources:esnext',
@@ -45,13 +43,14 @@ function build() {
 function copyMetaFiles() {
 	return mergeStream(
 		// Clean package.json
-		gulp.src(['package.json']).pipe(cleanPackageJson()),
+		src(['package.json']).pipe(cleanPackageJson()),
 		// Copy other
-		gulp.src(['README.md', 'LICENSE']),
-	).pipe(gulp.dest(buildDir));
+		src(['README.md', 'LICENSE']),
+	).pipe(dest(buildDir));
 }
 
 // Compilations
-const fullBuild = gulp.series([copyMetaFiles, build()]);
+const fullBuild = series([copyMetaFiles, build()]);
 
-module.exports.default = fullBuild;
+const _default = fullBuild;
+export { _default as default };
