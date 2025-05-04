@@ -13,22 +13,25 @@ export interface Compiler<T> {
 
 export type SQLCompilerConfig = {
 	getPlaceholder: (valueIndex: number) => string;
+	onPostProcess?: (code: string) => string;
 };
 
 export class SQLCompiler implements Compiler<CommandWithBindings<QueryBindings>> {
 	private readonly config: SQLCompilerConfig;
 	constructor(options?: Partial<SQLCompilerConfig>) {
 		this.config = {
+			...options,
 			getPlaceholder: options?.getPlaceholder ?? (() => '?'),
 		};
 	}
 	/**
 	 * Compile query to SQL string and bindings
 	 */
-	public compile(query: Query) {
+	public compile(query: Query): CommandWithBindings<QueryBindings> {
 		const sharedState = {
 			valueIndex: 0,
 		};
+
 		const processQuery = (query: Query): CommandWithBindings<QueryBindings> => {
 			let command = '';
 			const bindings: Array<string | number | null> = [];
@@ -57,7 +60,13 @@ export class SQLCompiler implements Compiler<CommandWithBindings<QueryBindings>>
 			return { command, bindings };
 		};
 
-		return processQuery(query);
+		const { command, bindings } = processQuery(query);
+		return {
+			command: this.config.onPostProcess
+				? this.config.onPostProcess(command)
+				: command,
+			bindings,
+		};
 	}
 
 	/**
