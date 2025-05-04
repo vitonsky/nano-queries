@@ -143,6 +143,8 @@ describe('Compiler options', () => {
 						new RawSegment(')'),
 					),
 					new RawSegment(' '),
+					new RawSegment('ORDER BY embedding <=> [0.1, 0.2, 0.3] ASC'),
+					new RawSegment(' '),
 					new RawSegment('LIMIT'),
 					new RawSegment(' '),
 					new PreparedValue(2),

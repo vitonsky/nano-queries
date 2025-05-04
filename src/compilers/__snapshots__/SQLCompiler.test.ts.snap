@@ -24,6 +24,8 @@ WHERE
       n = $2
       OR n2 = $3
   )
+ORDER BY
+  embedding <=> [0.1, 0.2, 0.3] ASC
 LIMIT
   $4
 OFFSET
