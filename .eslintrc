@@ -26,7 +26,8 @@
 			"error",
 			{
 				"ignore": [
-					"^vitest/config"
+					"^vitest/config",
+					"^astro:"
 				]
 			}
 		],

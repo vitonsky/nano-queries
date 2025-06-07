@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: visioncortex VTracer 0.6.4 -->
+
+<svg
+   version="1.1"
+   width="300"
+   height="300"
+   id="svg138"
+   sodipodi:docname="svg_output(4).svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs142" />
+  <sodipodi:namedview
+     id="namedview140"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.86915208"
+     inkscape:cx="5.7527331"
+     inkscape:cy="178.33473"
+     inkscape:window-width="1920"
+     inkscape:window-height="1118"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg138" />
+  <g
+     id="g586"
+     transform="matrix(1.1895841,0,0,1.1895841,-415.10695,-326.72302)"
+     style="fill:#00a8ff;fill-opacity:1"
+     inkscape:label="Magnifying glass">
+    <path
+       d="m 456.06592,303.26971 18,1 16,5 14,8 10,8 c 2.518,2.77576 2.50163,2.77966 4,4 l 9,13 5,10 4,13 1,7 v 20 l -4,18 -6,13 -2,6 5,6 8,7 26,26 8.0339,8.71186 c 3.93024,10.69635 -13.45791,22.15533 -21.0339,20.28814 l -8,-7 -15,-15 -5,-5 -11,-11 c -3.43978,-2.89943 -3.49175,-2.94628 -6,-6 l -2,-3 -5,1 -13,6 -10,3 -7,1 h -18 l -14,-3 -13,-5 -11,-7 -12,-11 -7,-8 -6,-10 -5,-14 -2,-10 v -21 l 4,-17 8,-16 8,-11 8,-7 15,-10 13,-5 9,-2 z m -6,21 -16,5 -11,7 -10,10 -8,14 -4,15 v 17 l 3,11 7,14 7,8 13,9 13,5 4,1 h 22 l 10,-3 15,-8 10,-10 7,-11 4,-11 1,-5 v -18 l -3,-12 -6,-12 -4,-6 -8,-7 -10,-7 -10,-4 -8,-2 z"
+       fill="#000000"
+       id="path2"
+       sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+       style="fill:#00a8ff;fill-opacity:1" />
+    <path
+       d="m 457.06592,337.26971 8,2 5,6 1,7 -3,7 -5,4 -2,1 h -8 l -6,-4 -3,-5 v -8 l 3,-5 5,-4 z"
+       fill="#000000"
+       id="path6"
+       style="fill:#00a8ff;fill-opacity:1" />
+    <path
+       d="m 485.06592,356.26971 h 7 l 4,4 v 6 l -4,4 -4,1 -6,-3 -1,-2 v -6 z"
+       fill="#000000"
+       id="path8"
+       style="fill:#00a8ff;fill-opacity:1" />
+    <path
+       d="m 426.06592,360.26971 6,2 4,4 1,5 -2,5 -5,4 h -7 l -5,-4 -1,-9 4,-5 z"
+       fill="#000000"
+       id="path10"
+       style="fill:#00a8ff;fill-opacity:1" />
+    <path
+       d="m 456.06592,376.26971 7,1 3,7 -2,4 -6,2 -6,-3 -1,-5 3,-5 z"
+       fill="#000000"
+       id="path12"
+       style="fill:#00a8ff;fill-opacity:1" />
+    <path
+       d="m 483.06592,384.26971 h 8 l 5,3 4,7 v 7 l -4,6 -5,3 h -8 l -5,-3 -4,-6 v -9 l 6,-7 z"
+       fill="#000000"
+       id="path14"
+       style="fill:#00a8ff;fill-opacity:1" />
+    <path
+       d="m 438.06592,393.26971 7,1 5,3 3,4 1,9 -3,6 -5,4 -2,1 h -7 l -6,-3 -4,-6 -1,-6 3,-8 5,-4 z"
+       fill="#000000"
+       id="path16"
+       style="fill:#00a8ff;fill-opacity:1" />
+    <path
+       d="m 466.06592,413.26971 h 6 l 3,3 v 6 l -3,3 h -6 l -3,-3 v -6 z"
+       fill="#000000"
+       id="path18"
+       style="fill:#00a8ff;fill-opacity:1" />
+  </g>
+</svg>
