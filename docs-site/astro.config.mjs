@@ -4,8 +4,7 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://vitonsky.github.io/nano-queries/',
-	base: '/nano-queries',
+	site: 'https://nano-queries.js.org',
 	integrations: [
 		starlight({
 			title: 'NanoQueries',
