@@ -1,4 +1,9 @@
+<span class="not-content">
+
 [![](https://img.shields.io/npm/v/nano-queries.svg)](https://www.npmjs.com/package/nano-queries) ![](https://github.com/vitonsky/nano-queries/actions/workflows/codeql-analysis.yml/badge.svg)
+
+</span>
+
 
 Simple and powerful database-agnostic query builder.
 
