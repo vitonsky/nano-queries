@@ -1,0 +1,21 @@
+---
+import Default from '@astrojs/starlight/components/PageFrame.astro';
+---
+
+{/* Render the default Starlight <PageFrame> component. */}
+<Default>
+  <slot />
+  <slot name="header" slot="header" />
+  <slot name="sidebar" slot="sidebar" />
+</Default>
+
+<script>
+	import {Plausible, enableAutoPageviews, enableAutoOutboundTracking} from 'plausible-client';
+	const plausible = new Plausible({
+		apiHost: 'https://uxt.vitonsky.net',
+		domain: 'nano-queries.js.org',
+	});
+
+	enableAutoPageviews(plausible);
+	enableAutoOutboundTracking(plausible);
+</script>
