@@ -27,7 +27,8 @@
 			{
 				"ignore": [
 					"^vitest/config",
-					"^astro:"
+					"^astro:",
+					"^astro/"
 				]
 			}
 		],
@@ -41,6 +42,9 @@
 				"ignoreRequire": true,
 				"lang": "en_US",
 				"skipWords": [
+					"nano",
+					"svg",
+					"astro",
 					"Globals",
 					"workspace",
 					"sql",
