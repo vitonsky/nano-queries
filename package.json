@@ -35,6 +35,7 @@
 		"type": "git",
 		"url": "https://github.com/vitonsky/nano-queries"
 	},
+	"workspaces": ["./docs-site"],
 	"scripts": {
 		"test": "vitest",
 		"test-fast": "TEST_FAST=true vitest",

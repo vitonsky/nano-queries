@@ -26,7 +26,9 @@
 			"error",
 			{
 				"ignore": [
-					"^vitest/config"
+					"^vitest/config",
+					"^astro:",
+					"^astro/"
 				]
 			}
 		],
@@ -40,6 +42,11 @@
 				"ignoreRequire": true,
 				"lang": "en_US",
 				"skipWords": [
+					"nano",
+					"svg",
+					"ico",
+					"favicon",
+					"astro",
 					"Globals",
 					"workspace",
 					"sql",

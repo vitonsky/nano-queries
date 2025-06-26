@@ -1,0 +1,21 @@
+{
+	"name": "docs-site",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro"
+	},
+	"dependencies": {
+		"@astrojs/starlight": "^0.34.3",
+		"astro": "^5.6.1",
+		"plausible-client": "^1.1.0",
+		"sharp": "^0.32.5"
+	},
+	"devDependencies": {
+		"favicons": "^7.2.0"
+	}
+}
