@@ -44,6 +44,8 @@
 				"skipWords": [
 					"nano",
 					"svg",
+					"ico",
+					"favicon",
 					"astro",
 					"Globals",
 					"workspace",
