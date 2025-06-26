@@ -10,6 +10,7 @@ export default defineConfig({
 			title: 'NanoQueries',
 			logo: {
 				src: './logo.svg',
+				replacesTitle: true,
 			},
 			pagefind: false,
 			social: [
