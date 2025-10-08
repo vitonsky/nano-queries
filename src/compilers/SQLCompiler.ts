@@ -11,15 +11,15 @@ export interface Compiler<T> {
 	compile: (query: Query<T>) => CommandWithBindings<T>;
 }
 
-// TODO: add hook to preprocess values
-export type SQLCompilerConfig = {
+export type SQLCompilerConfig<T> = {
 	getPlaceholder: (valueIndex: number) => string;
 	onPostProcess?: (code: string) => string;
+	transformValue?: (value: T) => T;
 };
 
 export class SQLCompiler<B = BaseValues> implements Compiler<B> {
-	private readonly config: SQLCompilerConfig;
-	constructor(options?: Partial<SQLCompilerConfig>) {
+	private readonly config: SQLCompilerConfig<B>;
+	constructor(options?: Partial<SQLCompilerConfig<B>>) {
 		this.config = {
 			...options,
 			getPlaceholder: options?.getPlaceholder ?? (() => '?'),
@@ -35,7 +35,7 @@ export class SQLCompiler<B = BaseValues> implements Compiler<B> {
 
 		const processQuery = (query: Query<B>): CommandWithBindings<B> => {
 			let command = '';
-			const bindings: Array<B> = [];
+			let bindings: Array<B> = [];
 			for (const segment of query.getSegments()) {
 				if (segment instanceof Query) {
 					const data = processQuery(segment);
@@ -56,6 +56,11 @@ export class SQLCompiler<B = BaseValues> implements Compiler<B> {
 				}
 
 				command += segment.getValue();
+			}
+
+			const { transformValue } = this.config;
+			if (transformValue) {
+				bindings = bindings.map((value) => transformValue(value));
 			}
 
 			return { command, bindings };
