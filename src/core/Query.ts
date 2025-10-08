@@ -1,4 +1,5 @@
 import { IQuery, QueryParameter, QuerySegment, RawQueryParameter } from '../types';
+import { PreparedValue } from './PreparedValue';
 import { RawSegment } from './RawSegment';
 
 export const filterOutEmptySegments = (segments: RawQueryParameter[]) =>
@@ -28,18 +29,29 @@ export class Query implements IQuery {
 	}
 
 	protected addSegment(...segments: RawQueryParameter[]) {
-		this.segments.push(
-			...filterOutEmptySegments(segments).map((segment) => {
-				switch (typeof segment) {
-					case 'string':
-					case 'number':
-					case 'boolean':
-						return new RawSegment(segment);
+		// TODO: add UnknownValue container to handle it on compile time
+		// We leave here only valid values
+		loop: for (const segment of segments) {
+			if (segment === null) {
+				this.segments.push(new RawSegment(null));
+				continue;
+			}
 
-					default:
-						return segment === null ? new RawSegment(null) : segment;
-				}
-			}),
-		);
+			switch (typeof segment) {
+				case 'string':
+				case 'number':
+					this.segments.push(new RawSegment(segment));
+					continue loop;
+			}
+
+			if (
+				segment instanceof Query ||
+				segment instanceof PreparedValue ||
+				segment instanceof RawSegment
+			) {
+				this.segments.push(segment);
+				continue;
+			}
+		}
 	}
 }

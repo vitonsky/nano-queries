@@ -1,8 +1,10 @@
 import { PrimitiveValue, Value } from '../types';
 
-export class PreparedValue implements Value<PrimitiveValue> {
-	protected readonly value;
-	constructor(value: PrimitiveValue) {
+export class PreparedValue<V extends PrimitiveValue = PrimitiveValue>
+	implements Value<V>
+{
+	protected readonly value: V;
+	constructor(value: V) {
 		this.value = value;
 	}
 

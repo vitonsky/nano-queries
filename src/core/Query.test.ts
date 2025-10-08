@@ -5,7 +5,7 @@ const compiler = new SQLCompiler();
 
 test('Primitive values converts to sql', () => {
 	expect(compiler.toSQL(new Query('foo', 'bar', 1, 2, true, false))).toEqual({
-		sql: 'foobar12truefalse',
+		sql: 'foobar12',
 		bindings: [],
 	});
 });
@@ -15,6 +15,10 @@ test('Unexpected values converts to sql', () => {
 	expect(
 		compiler.toSQL(
 			new Query(
+				undefined,
+				true,
+				false,
+				Symbol(),
 				{
 					getValue() {
 						return date;
@@ -33,7 +37,7 @@ test('Unexpected values converts to sql', () => {
 			),
 		),
 	).toEqual({
-		sql: date.toString() + '[object Object]' + 'null',
+		sql: '',
 		bindings: [],
 	});
 });

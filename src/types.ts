@@ -11,7 +11,7 @@ export interface Value<T> {
 export type QueryBindings = PrimitiveValue;
 export type QuerySegment = RawSegment | PreparedValue | Query;
 
-export type QueryParameter = QuerySegment | QueryBindings;
+export type QueryParameter = QuerySegment | unknown;
 export type RawQueryParameter = QueryParameter | undefined;
 
 export interface IQuery {
