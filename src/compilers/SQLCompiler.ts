@@ -33,9 +33,10 @@ export class SQLCompiler<B = BaseValues> implements Compiler<B> {
 			valueIndex: 0,
 		};
 
+		const { transformValue } = this.config;
 		const processQuery = (query: Query<B>): CommandWithBindings<B> => {
 			let command = '';
-			let bindings: Array<B> = [];
+			const bindings: Array<B> = [];
 			for (const segment of query.getSegments()) {
 				if (segment instanceof Query) {
 					const data = processQuery(segment);
@@ -51,16 +52,15 @@ export class SQLCompiler<B = BaseValues> implements Compiler<B> {
 					sharedState.valueIndex++;
 
 					command += placeholder;
-					bindings.push(segment.getValue());
+					bindings.push(
+						transformValue
+							? transformValue(segment.getValue())
+							: segment.getValue(),
+					);
 					continue;
 				}
 
 				command += segment.getValue();
-			}
-
-			const { transformValue } = this.config;
-			if (transformValue) {
-				bindings = bindings.map((value) => transformValue(value));
 			}
 
 			return { command, bindings };

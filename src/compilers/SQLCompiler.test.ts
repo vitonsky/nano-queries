@@ -169,6 +169,7 @@ test('Compiler run hook to transform values', () => {
 		},
 	});
 
+	// Flat query
 	expect(
 		compiler.compile(
 			new Query<AllowedValues>(
@@ -182,6 +183,31 @@ test('Compiler run hook to transform values', () => {
 				new PreparedValue(true),
 				new RawSegment(' AND is_deleted='),
 				new PreparedValue(false),
+			),
+		),
+	).toEqual({
+		command: 'SELECT * FROM foo WHERE x=? AND is_visible=? AND is_deleted=?',
+		bindings: [100_000, 1, 0],
+	});
+
+	// Nested query
+	expect(
+		compiler.compile(
+			new Query<AllowedValues>(
+				new RawSegment('SELECT *'),
+				new RawSegment(' '),
+				new Query<AllowedValues>(
+					new RawSegment('FROM foo'),
+					new RawSegment(' '),
+					new RawSegment('WHERE x='),
+					new PreparedValue(100_000),
+					new RawSegment(' AND is_visible='),
+					new PreparedValue(true),
+					new Query<AllowedValues>(
+						new RawSegment(' AND is_deleted='),
+						new PreparedValue(false),
+					),
+				),
 			),
 		),
 	).toEqual({
