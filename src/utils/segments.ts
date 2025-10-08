@@ -3,7 +3,7 @@ import { Query } from '../core/Query';
 import { RawSegment } from '../core/RawSegment';
 import { QuerySegment } from '../types';
 
-export const isEmptySegment = (segment: QuerySegment): boolean => {
+export const isEmptySegment = <T>(segment: QuerySegment<T>): boolean => {
 	if (segment instanceof PreparedValue) return false;
 
 	if (segment instanceof RawSegment) {

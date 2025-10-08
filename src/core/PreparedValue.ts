@@ -1,12 +1,6 @@
-import { PrimitiveValue, Value } from '../types';
+import { ValueBox } from './ValueBox';
 
-export class PreparedValue implements Value<PrimitiveValue> {
-	protected readonly value;
-	constructor(value: string | number | null) {
-		this.value = value;
-	}
-
-	public getValue = () => {
-		return this.value;
-	};
-}
+/**
+ * User input to use as binding
+ */
+export class PreparedValue<V> extends ValueBox<V> {}
