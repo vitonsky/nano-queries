@@ -1,24 +1,24 @@
 import { QueryBuilder } from '../QueryBuilder';
-import { IQuery, QuerySegment, RawQueryParameter } from '../types';
+import { BaseValues, IQuery, QuerySegment, RawQueryParameter } from '../types';
 import { GroupExpression } from './GroupExpression';
 
-export class SetExpression extends QueryBuilder implements IQuery {
-	constructor(...segments: RawQueryParameter[]) {
+export class SetExpression<T = BaseValues> extends QueryBuilder<T> implements IQuery<T> {
+	constructor(...segments: RawQueryParameter<T>[]) {
 		super({ join: null });
 
 		this.raw(...segments);
 	}
 
-	public withParenthesis() {
-		return new GroupExpression(this);
+	public withParenthesis(): GroupExpression<T> {
+		return new GroupExpression<T>(this);
 	}
 
-	public getSegments(): QuerySegment[] {
-		const query = new QueryBuilder();
+	public getSegments(): QuerySegment<T>[] {
+		const query = new QueryBuilder<T>();
 
 		super.getSegments().forEach((item, index) => {
 			const preparedItem =
-				item instanceof SetExpression ? item.withParenthesis() : item;
+				item instanceof SetExpression<T> ? item.withParenthesis() : item;
 			query.raw(index > 0 ? ',' : undefined, preparedItem);
 		});
 

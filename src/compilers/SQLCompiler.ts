@@ -1,6 +1,6 @@
 import { PreparedValue } from '../core/PreparedValue';
 import { Query } from '../core/Query';
-import { PrimitiveValue, QueryBindings } from '../types';
+import { BaseValues } from '../types';
 
 export interface CommandWithBindings<T> {
 	command: string;
@@ -8,15 +8,16 @@ export interface CommandWithBindings<T> {
 }
 
 export interface Compiler<T> {
-	compile: (query: Query) => T;
+	compile: (query: Query<T>) => CommandWithBindings<T>;
 }
 
+// TODO: add hook to preprocess values
 export type SQLCompilerConfig = {
 	getPlaceholder: (valueIndex: number) => string;
 	onPostProcess?: (code: string) => string;
 };
 
-export class SQLCompiler implements Compiler<CommandWithBindings<QueryBindings>> {
+export class SQLCompiler<B = BaseValues> implements Compiler<B> {
 	private readonly config: SQLCompilerConfig;
 	constructor(options?: Partial<SQLCompilerConfig>) {
 		this.config = {
@@ -27,14 +28,14 @@ export class SQLCompiler implements Compiler<CommandWithBindings<QueryBindings>>
 	/**
 	 * Compile query to SQL string and bindings
 	 */
-	public compile(query: Query): CommandWithBindings<QueryBindings> {
+	public compile(query: Query<B>): CommandWithBindings<B> {
 		const sharedState = {
 			valueIndex: 0,
 		};
 
-		const processQuery = (query: Query): CommandWithBindings<QueryBindings> => {
+		const processQuery = (query: Query<B>): CommandWithBindings<B> => {
 			let command = '';
-			const bindings: Array<PrimitiveValue> = [];
+			const bindings: Array<B> = [];
 			for (const segment of query.getSegments()) {
 				if (segment instanceof Query) {
 					const data = processQuery(segment);
@@ -72,7 +73,7 @@ export class SQLCompiler implements Compiler<CommandWithBindings<QueryBindings>>
 	/**
 	 * Compile query to SQL string and bindings
 	 */
-	public toSQL = (query: Query): { sql: string; bindings: QueryBindings[] } => {
+	public toSQL = (query: Query<B>): { sql: string; bindings: B[] } => {
 		const { command: sql, bindings } = this.compile(query);
 		return { sql, bindings };
 	};

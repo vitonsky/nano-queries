@@ -1,12 +1,12 @@
 import { Query } from '../core/Query';
-import { IQuery } from '../types';
+import { BaseValues, IQuery } from '../types';
 
-export class GroupExpression extends Query implements IQuery {
+export class GroupExpression<T = BaseValues> extends Query<T> implements IQuery<T> {
 	public getSegments() {
 		const segments = super.getSegments();
 
 		if (segments.length === 0) return [];
 
-		return [new Query('('), ...segments, new Query(')')];
+		return [new Query<T>('('), ...segments, new Query<T>(')')];
 	}
 }

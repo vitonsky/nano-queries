@@ -101,3 +101,13 @@ test('Empty blocks yields nothing', () => {
 		bindings: [],
 	});
 });
+
+test('Compiler defines an acceptable values types for builder', () => {
+	const compiler = new SQLCompiler<number[] | string>();
+	const qb = new ConfigurableSQLBuilder(compiler);
+
+	expect(compiler.compile(qb.sql`Hello ${qb.values(['foo', [1, 2, 3]])}`)).toEqual({
+		command: 'Hello ?,?',
+		bindings: ['foo', [1, 2, 3]],
+	});
+});

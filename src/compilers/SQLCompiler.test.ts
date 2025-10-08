@@ -3,6 +3,7 @@ import { format } from 'sql-formatter';
 import { PreparedValue } from '../core/PreparedValue';
 import { Query } from '../core/Query';
 import { RawSegment } from '../core/RawSegment';
+import { BaseValues } from '../types';
 import { SQLCompiler } from './SQLCompiler';
 
 test('Compiler can process linear queries', () => {
@@ -46,7 +47,7 @@ test('Compiler can process nested queries', () => {
 				new RawSegment('WHERE x='),
 				new PreparedValue(1),
 				new RawSegment(' AND '),
-				new Query(
+				new Query<BaseValues>(
 					new RawSegment('('),
 					new RawSegment('SELECT y FROM bar WHERE n='),
 					new PreparedValue('foo'),
@@ -89,7 +90,7 @@ describe('Compiler options', () => {
 					new RawSegment('WHERE x='),
 					new PreparedValue(1),
 					new RawSegment(' AND '),
-					new Query(
+					new Query<BaseValues>(
 						new RawSegment('('),
 						new RawSegment('SELECT y FROM bar WHERE n='),
 						new PreparedValue('foo'),
@@ -134,7 +135,7 @@ describe('Compiler options', () => {
 					new RawSegment('WHERE x='),
 					new PreparedValue(1),
 					new RawSegment(' AND '),
-					new Query(
+					new Query<BaseValues>(
 						new RawSegment('('),
 						new RawSegment('SELECT y FROM bar WHERE n='),
 						new PreparedValue('foo'),

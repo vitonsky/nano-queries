@@ -1,34 +1,35 @@
 import { Query } from '../core/Query';
 import { QueryBuilder } from '../QueryBuilder';
-import { IQuery, QueryParameter, QuerySegment, RawQueryParameter } from '../types';
+import { BaseValues, IQuery, QuerySegment, RawQueryParameter } from '../types';
 import { LimitClause } from './LimitClause';
 import { SetExpression } from './SetExpression';
 import { WhereClause } from './WhereClause';
 
-export type SelectStatementOptions = QueryParameter[];
-
-export class SelectStatement extends Query implements IQuery {
-	private readonly _select: QueryParameter[];
-	private readonly _from: QueryParameter[];
+export class SelectStatement<T = BaseValues>
+	extends Query<T | number>
+	implements IQuery<T | number>
+{
+	private readonly _select: RawQueryParameter<T>[];
+	private readonly _from: RawQueryParameter<T>[];
 	private readonly _limit: { limit?: number; offset?: number };
 	private readonly _where;
 
-	constructor(...select: SelectStatementOptions) {
+	constructor(...select: RawQueryParameter<T>[]) {
 		super();
 
 		this._select = select;
 		this._from = [];
 		this._limit = {};
 
-		this._where = new WhereClause();
+		this._where = new WhereClause<T>();
 	}
 
-	public select(...params: QueryParameter[]) {
+	public select(...params: RawQueryParameter<T>[]) {
 		this._select.push(...params);
 		return this;
 	}
 
-	public from(...params: QueryParameter[]) {
+	public from(...params: RawQueryParameter<T>[]) {
 		this._from.push(...params);
 		return this;
 	}
@@ -43,13 +44,13 @@ export class SelectStatement extends Query implements IQuery {
 		return this;
 	}
 
-	public where(param: RawQueryParameter, condition: 'and' | 'or' = 'and') {
+	public where(param: RawQueryParameter<T>, condition: 'and' | 'or' = 'and') {
 		this._where[condition](param);
 		return this;
 	}
 
-	public getSegments(): QuerySegment[] {
-		const query = new QueryBuilder({ join: ' ' });
+	public getSegments(): QuerySegment<T | number>[] {
+		const query = new QueryBuilder<T | number>({ join: ' ' });
 
 		query.raw('SELECT');
 
@@ -64,7 +65,7 @@ export class SelectStatement extends Query implements IQuery {
 
 		query.raw(this._where);
 
-		query.raw(new LimitClause(this._limit));
+		query.raw(new LimitClause<T>(this._limit));
 
 		return query.getSegments();
 	}

@@ -1,4 +1,7 @@
-import { PrimitiveValue } from '../types';
+import { BaseValues } from '../types';
 import { ValueBox } from './ValueBox';
 
-export class RawSegment extends ValueBox<PrimitiveValue> {}
+/**
+ * Raw query text to use as is
+ */
+export class RawSegment extends ValueBox<BaseValues> {}

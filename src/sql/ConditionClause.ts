@@ -1,17 +1,17 @@
 import { filterOutEmptySegments, Query } from '../core/Query';
 import { QueryBuilder } from '../QueryBuilder';
-import { IQuery, QuerySegment, RawQueryParameter } from '../types';
+import { BaseValues, IQuery, QuerySegment, RawQueryParameter } from '../types';
 
-export class ConditionClause extends Query implements IQuery {
+export class ConditionClause<T = BaseValues> extends Query<T> implements IQuery<T> {
 	protected readonly clauses: Array<{
-		clause: QuerySegment;
+		clause: QuerySegment<T>;
 		join: 'AND' | 'OR';
 	}> = [];
 	constructor() {
 		super();
 	}
 
-	public and(...query: RawQueryParameter[]) {
+	public and(...query: RawQueryParameter<T>[]) {
 		const filteredQuery = filterOutEmptySegments(query);
 		if (filteredQuery.length > 0) {
 			this.clauses.push({
@@ -23,7 +23,7 @@ export class ConditionClause extends Query implements IQuery {
 		return this;
 	}
 
-	public or(...query: RawQueryParameter[]) {
+	public or(...query: RawQueryParameter<T>[]) {
 		const filteredQuery = filterOutEmptySegments(query);
 		if (filteredQuery.length > 0) {
 			this.clauses.push({
@@ -35,8 +35,8 @@ export class ConditionClause extends Query implements IQuery {
 		return this;
 	}
 
-	public getSegments(): QuerySegment[] {
-		const query = new QueryBuilder({ join: ' ' });
+	public getSegments(): QuerySegment<T>[] {
+		const query = new QueryBuilder<T>({ join: ' ' });
 
 		if (this.clauses.length > 0) {
 			this.clauses.forEach((clause, index) => {
