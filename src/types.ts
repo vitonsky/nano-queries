@@ -2,7 +2,7 @@ import { PreparedValue } from './core/PreparedValue';
 import { Query } from './core/Query';
 import { RawSegment } from './core/RawSegment';
 
-export type PrimitiveValue = string | number | null;
+export type PrimitiveValue = string | number | null | boolean;
 
 export interface Value<T> {
 	getValue: () => T;

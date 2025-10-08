@@ -1,6 +1,6 @@
 import { PreparedValue } from '../core/PreparedValue';
 import { Query } from '../core/Query';
-import { QueryBindings } from '../types';
+import { PrimitiveValue, QueryBindings } from '../types';
 
 export interface CommandWithBindings<T> {
 	command: string;
@@ -34,7 +34,7 @@ export class SQLCompiler implements Compiler<CommandWithBindings<QueryBindings>>
 
 		const processQuery = (query: Query): CommandWithBindings<QueryBindings> => {
 			let command = '';
-			const bindings: Array<string | number | null> = [];
+			const bindings: Array<PrimitiveValue> = [];
 			for (const segment of query.getSegments()) {
 				if (segment instanceof Query) {
 					const data = processQuery(segment);

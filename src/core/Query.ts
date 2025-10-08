@@ -33,6 +33,7 @@ export class Query implements IQuery {
 				switch (typeof segment) {
 					case 'string':
 					case 'number':
+					case 'boolean':
 						return new RawSegment(segment);
 
 					default:
