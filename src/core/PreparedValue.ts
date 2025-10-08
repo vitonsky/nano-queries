@@ -1,14 +1,6 @@
-import { PrimitiveValue, Value } from '../types';
+import { PrimitiveValue } from '../types';
+import { ValueBox } from './ValueBox';
 
-export class PreparedValue<V extends PrimitiveValue = PrimitiveValue>
-	implements Value<V>
-{
-	protected readonly value: V;
-	constructor(value: V) {
-		this.value = value;
-	}
-
-	public getValue = () => {
-		return this.value;
-	};
-}
+export class PreparedValue<
+	V extends PrimitiveValue = PrimitiveValue,
+> extends ValueBox<V> {}

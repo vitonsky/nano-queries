@@ -1,12 +1,4 @@
-import { PrimitiveValue, Value } from '../types';
+import { PrimitiveValue } from '../types';
+import { ValueBox } from './ValueBox';
 
-export class RawSegment implements Value<PrimitiveValue> {
-	protected readonly value;
-	constructor(value: PrimitiveValue) {
-		this.value = value;
-	}
-
-	public getValue = () => {
-		return this.value;
-	};
-}
+export class RawSegment extends ValueBox<PrimitiveValue> {}
