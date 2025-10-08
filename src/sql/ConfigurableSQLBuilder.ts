@@ -54,6 +54,8 @@ export class ConfigurableSQLBuilder<T = BaseValues> {
 	};
 
 	private readonly templateStringBuilder = new TemplateStringQueryBuilder<T>();
-	public sql = (strings: TemplateStringsArray, ...params: Array<T | QuerySegment<T>>) =>
-		this.templateStringBuilder.build(strings, ...params);
+	public sql = (
+		strings: TemplateStringsArray,
+		...params: Array<T | QuerySegment<T> | undefined>
+	) => this.templateStringBuilder.build(strings, ...params);
 }

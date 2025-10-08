@@ -111,3 +111,17 @@ test('Compiler defines an acceptable values types for builder', () => {
 		bindings: ['foo', [1, 2, 3]],
 	});
 });
+
+test('Templated string accepts and skip `undefined`, to build query conditionally', () => {
+	const compiler = new SQLCompiler();
+	const qb = new ConfigurableSQLBuilder(compiler);
+
+	expect(
+		compiler.compile(
+			qb.sql`Hello ${qb.sql`world`}. 1+1=${false ? qb.sql`three` : undefined}${true ? qb.sql`two` : undefined}`,
+		),
+	).toEqual({
+		command: 'Hello world. 1+1=two',
+		bindings: [],
+	});
+});
