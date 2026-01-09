@@ -1,21 +1,18 @@
-/* eslint-disable spellcheck/spell-checker */
-
-import { SQLCompiler } from 'nano-queries/compilers/SQLCompiler';
-import { ConfigurableSQLBuilder } from 'nano-queries/sql/ConfigurableSQLBuilder';
+import { ConfigurableSQLBuilder, SQLCompiler } from 'nano-queries';
 import { expect, test } from 'vitest';
 
-const compiler = new SQLCompiler({
-	getPlaceholder(valueIndex) {
-		return '$' + (valueIndex + 1);
-	},
-});
-
-const { sql, line, values } = new ConfigurableSQLBuilder(compiler);
+const { sql, line, values, toSQL } = new ConfigurableSQLBuilder(
+	new SQLCompiler({
+		getPlaceholder(valueIndex) {
+			return '$' + (valueIndex + 1);
+		},
+	}),
+);
 
 test('Trivial query', async () => {
 	const currentYear = new Date().getFullYear();
 	expect(
-		compiler.toSQL(sql`SELECT title FROM movies WHERE release_year = ${currentYear}`),
+		toSQL(sql`SELECT title FROM movies WHERE release_year = ${currentYear}`),
 	).toEqual({
 		sql: 'SELECT title FROM movies WHERE release_year = $1',
 		bindings: [currentYear],
@@ -31,7 +28,7 @@ test('Lateral binding and dynamic extension', async () => {
 	filter.raw('WHERE');
 	filter.raw('release_year =').value(currentYear);
 
-	expect(compiler.toSQL(query)).toEqual({
+	expect(toSQL(query)).toEqual({
 		sql: 'SELECT title FROM movies WHERE release_year = $1 LIMIT 100',
 		bindings: [currentYear],
 	});
@@ -40,7 +37,7 @@ test('Lateral binding and dynamic extension', async () => {
 test('Helpers', async () => {
 	const selectedYears = [1995, 2001, 2006];
 	expect(
-		compiler.toSQL(
+		toSQL(
 			sql`SELECT title FROM movies WHERE release_year IN ${values(selectedYears).withParenthesis()}`,
 		),
 	).toEqual({

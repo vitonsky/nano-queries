@@ -32,6 +32,7 @@
 		"types": ["vitest/globals"],
 		"baseUrl": ".",
 		"paths": {
+			"nano-queries": ["src/index"],
 			"nano-queries/*": ["src/*"]
 		}
 	},
