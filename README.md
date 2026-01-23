@@ -5,17 +5,21 @@
 </span>
 
 
-Simple and powerful database-agnostic query builder.
+State of the art query builder.
 
+Highlights
+- Database-agnostic design to build queries for anything, including SQL and NoSQL databases
+- Simple API to build a complex queries
+- It is really secure. User input are boxed and never mixes with a raw query. Query compiles to a string with placeholders and array with bindings
+- Laziness. First class support of a dynamic query building and lateral query extension
+- Nested queries
+- Easy to extend. Build your own modules from a primitives
 
 # About
 
 The purpose of **query builder** is to simplify building a complex (SQL) query for database in safe manner.
 
 The project goals and key features is:
-- Simple API to build a complex queries
-- A safety of queries, to prevent SQL injections
-- Universal and extensible design to build SQL queries for any database
 
 A `nano-queries` is focused to be an ideal **query builder**, that's all. There's no a queries executor, data mapper (Active Record or something), ORM, etc.
 
