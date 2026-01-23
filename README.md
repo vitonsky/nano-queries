@@ -30,7 +30,11 @@ That's exactly what `nano-queries` does. We use this solution in production sinc
 
 Nano queries works well with any database - SQLite, Postgres, MySQL, Oracle, GraphQL, PGLite, DuckDB, etc. Actually you may build any queries that may be compiled to a string.
 
-# Use
+# Usage
+
+All you need is to configure compiler once and compile your queries.
+
+Here is an example with a `SQLCompiler`
 
 ```ts
 import { ConfigurableSQLBuilder, SQLCompiler } from 'nano-queries';
@@ -54,6 +58,10 @@ compile(sql`SELECT title FROM movies WHERE release_year = ${currentYear}`)
 // }
 ```
 
+You may build queries dynamically.
+
+In example below a `line()` call creates a query that may be extended via `raw()` call that will add a raw text to a query and adds a space before segments.
+
 ```ts
 const { sql, compile, line } = new ConfigurableSQLBuilder(/* ... */);
 
@@ -71,6 +79,10 @@ compile(query);
 //   bindings: [currentYear],
 // }
 ```
+
+As you can see, first we add a query `filter` to another query, and then extend a `filter` query.
+
+You may modify a queries anytime before compiling. This is useful when you want to build a query conditionally with optional parts.
 
 # The Design
 
