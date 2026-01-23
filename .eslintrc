@@ -26,6 +26,7 @@
 			"error",
 			{
 				"ignore": [
+					"^nano-queries",
 					"^vitest/config",
 					"^astro:",
 					"^astro/"

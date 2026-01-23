@@ -53,6 +53,8 @@ export class ConfigurableSQLBuilder<T = BaseValues> {
 		return this.compiler.toSQL(query);
 	};
 
+	public compile = this.toSQL;
+
 	private readonly templateStringBuilder = new TemplateStringQueryBuilder<T>();
 	public sql = (
 		strings: TemplateStringsArray,

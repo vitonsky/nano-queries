@@ -29,7 +29,12 @@
 		"allowJs": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
-		"types": ["vitest/globals"]
+		"types": ["vitest/globals"],
+		"baseUrl": ".",
+		"paths": {
+			"nano-queries": ["src/index"],
+			"nano-queries/*": ["src/*"]
+		}
 	},
 	"include": ["*.ts", "src/*.ts", "src/**/*.ts"]
 }

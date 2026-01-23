@@ -1,14 +1,13 @@
 /* eslint-disable spellcheck/spell-checker */
 
+import { SQLCompiler } from 'nano-queries/compilers/SQLCompiler';
+import { PreparedValue } from 'nano-queries/core/PreparedValue';
+import { QueryBuilder } from 'nano-queries/QueryBuilder';
+import { SelectStatement } from 'nano-queries/sql/SelectStatement';
+import { SetExpression } from 'nano-queries/sql/SetExpression';
+import { WhereClause } from 'nano-queries/sql/WhereClause';
 import { expect, test } from 'vitest';
 import { PGlite } from '@electric-sql/pglite';
-
-import { SQLCompiler } from '../compilers/SQLCompiler';
-import { PreparedValue } from '../core/PreparedValue';
-import { QueryBuilder } from '../QueryBuilder';
-import { SelectStatement } from '../sql/SelectStatement';
-import { SetExpression } from '../sql/SetExpression';
-import { WhereClause } from '../sql/WhereClause';
 
 const compiler = new SQLCompiler({
 	getPlaceholder(valueIndex) {
