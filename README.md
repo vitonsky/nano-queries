@@ -34,7 +34,7 @@ Nano queries works well with any database - SQLite, Postgres, MySQL, Oracle, Gra
 
 All you need is to configure compiler once and compile your queries.
 
-Here is an example with a `SQLCompiler`
+Here is an example with a `SQLCompiler` ([run in sandbox](https://stackblitz.com/edit/stackblitz-starters-udhqmj74?file=index.js))
 
 ```ts
 import { ConfigurableSQLBuilder, SQLCompiler } from 'nano-queries';
