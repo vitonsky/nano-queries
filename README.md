@@ -21,6 +21,48 @@ A `nano-queries` is focused to be an ideal **query builder**, that's all. There'
 
 Project design is follows the [UNIX philosophy](https://en.wikipedia.org/wiki/Unix_philosophy), that's why this solution works well with any database - SQLite, Postgres, MySQL, Oracle, etc.
 
+# Use
+
+```ts
+import { ConfigurableSQLBuilder, SQLCompiler } from 'nano-queries';
+
+// SQL builder must be configured once
+const { sql, compile } = new ConfigurableSQLBuilder(
+	new SQLCompiler({
+		getPlaceholder(valueIndex) {
+			return '$' + (valueIndex + 1);
+		},
+	}),
+);
+
+const currentYear = new Date().getFullYear();
+compile(sql`SELECT title FROM movies WHERE release_year = ${currentYear}`)
+
+// Returns query with placeholders and array with bindings equal to
+// {
+//   sql: "SELECT title FROM movies WHERE release_year = $1",
+//   bindings: [2026],
+// }
+```
+
+```ts
+const { sql, compile, line } = new ConfigurableSQLBuilder(/* ... */);
+
+const filter = line();
+const query = sql`SELECT title FROM movies ${filter} LIMIT 100`;
+
+// We may extend a query segment any time before compiling
+const currentYear = new Date().getFullYear();
+filter.raw('WHERE');
+filter.raw('release_year =').value(currentYear);
+
+compile(query);
+// {
+//   sql: 'SELECT title FROM movies WHERE release_year = $1 LIMIT 100',
+//   bindings: [currentYear],
+// }
+```
+
 # The Design
 
 A `nano-queries` design is based on the idea that only the programmer knows how to implement the ideal query properly, and the query builder must not limit the programmer in doing their work.
