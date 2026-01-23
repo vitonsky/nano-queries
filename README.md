@@ -15,15 +15,20 @@ Highlights
 - Nested queries
 - Easy to extend. Build your own modules from a primitives
 
-# About
+# Motivation
 
-The purpose of **query builder** is to simplify building a complex (SQL) query for database in safe manner.
+At June of 2023 I've found myself in a picante situation. We had use a custom database on some project and I was needed in a simple query builder to build a complex queries dynamically and ensure security against user input injections. I find out there are no solutions of that problem on JavaScript platform at all.
 
-The project goals and key features is:
+All exists query builders had at least one of fundamental problems below (usually most of them)
+- they are built for specific database or a few. They require a "drivers", "compilers", etc that does not exists for our database
+- they are designed to be ORM or anything but not just a query builder
+- they are work only in node platform, but not in browser, deno, etc
 
-A `nano-queries` is focused to be an ideal **query builder**, that's all. There's no a queries executor, data mapper (Active Record or something), ORM, etc.
+The purpose of a **query builder** is to simplify building of a complex queries and ensure its safety. That's all.
 
-Project design is follows the [UNIX philosophy](https://en.wikipedia.org/wiki/Unix_philosophy), that's why this solution works well with any database - SQLite, Postgres, MySQL, Oracle, etc.
+That's exactly what `nano-queries` does. We use this solution in production since 2023 and open sourced it for community.
+
+Nano queries works well with any database - SQLite, Postgres, MySQL, Oracle, GraphQL, PGLite, DuckDB, etc. Actually you may build any queries that may be compiled to a string.
 
 # Use
 
