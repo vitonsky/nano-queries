@@ -59,23 +59,32 @@ compile(sql`SELECT title FROM movies WHERE release_year = ${currentYear}`)
 
 You may build queries dynamically.
 
-In the example below, a `line()` call creates a query that may be extended via `raw()` call that will add raw text to a query and add a space before segments.
+In the example below, a `where()` call creates a query that may be extended via `and()`/`or()` calls.
 
 ```ts
-const { sql, compile, line } = new ConfigurableSQLBuilder(/* ... */);
+const { sql, compile, where } = new ConfigurableSQLBuilder(/* ... */);
 
-const filter = line();
+const userInput = {
+  year: 2007,
+  rating: 4.1,
+};
+
+// You may nest one query into another
+const filter = where();
 const query = sql`SELECT title FROM movies ${filter} LIMIT 100`;
 
-// We may extend a query segment any time before compiling
-const currentYear = new Date().getFullYear();
-filter.raw('WHERE');
-filter.raw('release_year =').value(currentYear);
+// A query segment can be extended any time before compiling
+filter.and(sql`release_year = ${userInput.year}`);
+
+// That's useful to build a complex conditional queries
+if (userInput.rating > 0) {
+  filter.and(sql`rating >= ${userInput.rating}`);
+}
 
 compile(query);
 // {
-//   sql: 'SELECT title FROM movies WHERE release_year = $1 LIMIT 100',
-//   bindings: [currentYear],
+//   sql: 'SELECT title FROM movies WHERE release_year = $1 AND rating >= $2 LIMIT 100',
+//   bindings: [2007, 4.1],
 // }
 ```
 
