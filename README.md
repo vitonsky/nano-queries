@@ -31,6 +31,8 @@ Nano queries work well with any database - SQLite, Postgres, MySQL, Oracle, Grap
 
 # Usage
 
+Check out an [interactive demo on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-rxhqvgfr?file=pglite.js&view=editor) with `PGLite` + `nano-queries`.
+
 All you need is to configure the compiler once and compile your queries.
 
 Here is an example with a `SQLCompiler` ([run in sandbox](https://stackblitz.com/edit/stackblitz-starters-udhqmj74?file=index.js))
@@ -59,23 +61,32 @@ compile(sql`SELECT title FROM movies WHERE release_year = ${currentYear}`)
 
 You may build queries dynamically.
 
-In the example below, a `line()` call creates a query that may be extended via `raw()` call that will add raw text to a query and add a space before segments.
+In the example below, a `where()` call creates a query that may be extended via `and()`/`or()` calls.
 
 ```ts
-const { sql, compile, line } = new ConfigurableSQLBuilder(/* ... */);
+const { sql, compile, where } = new ConfigurableSQLBuilder(/* ... */);
 
-const filter = line();
+const userInput = {
+  year: 2007,
+  rating: 4.1,
+};
+
+// You may nest one query into another
+const filter = where();
 const query = sql`SELECT title FROM movies ${filter} LIMIT 100`;
 
-// We may extend a query segment any time before compiling
-const currentYear = new Date().getFullYear();
-filter.raw('WHERE');
-filter.raw('release_year =').value(currentYear);
+// A query segment can be extended any time before compiling
+filter.and(sql`release_year = ${userInput.year}`);
+
+// That's useful to build a complex conditional queries
+if (userInput.rating > 0) {
+  filter.and(sql`rating >= ${userInput.rating}`);
+}
 
 compile(query);
 // {
-//   sql: 'SELECT title FROM movies WHERE release_year = $1 LIMIT 100',
-//   bindings: [currentYear],
+//   sql: 'SELECT title FROM movies WHERE release_year = $1 AND rating >= $2 LIMIT 100',
+//   bindings: [2007, 4.1],
 // }
 ```
 
