@@ -31,6 +31,8 @@ Nano queries work well with any database - SQLite, Postgres, MySQL, Oracle, Grap
 
 # Usage
 
+Check out an [interactive demo on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-rxhqvgfr?file=pglite.js&view=editor) with `PGLite` + `nano-queries`.
+
 All you need is to configure the compiler once and compile your queries.
 
 Here is an example with a `SQLCompiler` ([run in sandbox](https://stackblitz.com/edit/stackblitz-starters-udhqmj74?file=index.js))
